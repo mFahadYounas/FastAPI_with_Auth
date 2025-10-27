@@ -10,6 +10,7 @@ dependencies = [
     "pydantic[email]>=2.12.3",
     "python-dotenv>=1.1.1",
     "python-jose>=3.5.0",
+    "python-multipart>=0.0.20",
     "sqlalchemy>=2.0.44",
     "types-python-jose>=3.5.0.20250531",
     "uvicorn>=0.38.0",

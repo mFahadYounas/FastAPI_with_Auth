@@ -7,9 +7,9 @@ import uvicorn
 
 app = FastAPI()
 
-app.include_router(login_router)
-app.include_router(products_router)
-app.include_router(users_router)
+app.include_router(login_router, tags=["Login"])
+app.include_router(products_router, tags=["Products"], prefix="/products")
+app.include_router(users_router, tags=["Users"], prefix="/users")
 
 
 def main():

@@ -1,8 +1,8 @@
-from fastapi import APIRouter
-from app.schemas.login import LoginRequest, LoginResponse
+from fastapi import APIRouter, Depends
+from app.schemas.login import LoginResponse
 from app.ResponseBuilder import ResponseBuilder
 from app.security import create_access_token
-from app.schemas.api_response import APIResponse
+from fastapi.security import OAuth2PasswordRequestForm
 
 login_router = APIRouter()
 
@@ -12,8 +12,8 @@ fake_users = {
 }
 
 
-@login_router.post("/login", response_model=APIResponse[LoginResponse])
-def login(request: LoginRequest):
+@login_router.post("/login", response_model=LoginResponse)
+def login(request: OAuth2PasswordRequestForm = Depends()):
     user = fake_users.get(request.username)
     if not user or user["password"] != request.password:
         ResponseBuilder[LoginResponse].error(
@@ -23,4 +23,4 @@ def login(request: LoginRequest):
     access_token = create_access_token(data={"sub": request.username})
     response = LoginResponse(access_token=access_token, token_type="bearer")
 
-    return ResponseBuilder[LoginResponse].success(data=response)
+    return response
