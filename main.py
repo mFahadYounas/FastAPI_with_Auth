@@ -1,13 +1,19 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
+from app.api.v1.login import login_router
+from app.api.v1.products import products_router
+from app.api.v1.users import users_router
+from app.database import init_db
 import uvicorn
 
 app = FastAPI()
 
-load_dotenv()  # load environment variables
+app.include_router(login_router)
+app.include_router(products_router)
+app.include_router(users_router)
 
 
 def main():
+    init_db()
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 

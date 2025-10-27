@@ -1,11 +1,15 @@
 from datetime import timedelta, datetime, timezone
 from jose import jwt, JWTError
-from os import environ
+import os
+from dotenv import load_dotenv
 from fastapi import HTTPException
+
+
+load_dotenv()
 
 ACCESS_TOKEN_EXPIRES_MINS = 15
 ALGORITHM = "HS256"
-jwt_secret_key = environ.get("JWT_SECRET_KEY")
+jwt_secret_key = os.environ.get("JWT_SECRET_KEY")
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
