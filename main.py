@@ -1,7 +1,10 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
 import uvicorn
 
 app = FastAPI()
+
+load_dotenv()  # load environment variables
 
 
 def main():

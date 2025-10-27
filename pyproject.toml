@@ -11,5 +11,6 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "python-jose>=3.5.0",
     "sqlalchemy>=2.0.44",
+    "types-python-jose>=3.5.0.20250531",
     "uvicorn>=0.38.0",
 ]
