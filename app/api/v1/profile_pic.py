@@ -1,4 +1,5 @@
 from fastapi import APIRouter, UploadFile
+from fastapi.responses import FileResponse
 from app.ResponseBuilder import ResponseBuilder
 from app.schemas.api_response import APIResponse
 
@@ -19,3 +20,8 @@ def upload_profile_pic(file: UploadFile):
             status=400, error_msg=f"File too large! Should be less than {max_file_size}"
         )
     return ResponseBuilder[dict].success({"message": "File upload successful!"})
+
+
+@profile_pic_router.get("/picture", response_class=FileResponse)
+def get_profile_pic():
+    return "./app/assets/Placeholder_image.jpg"
