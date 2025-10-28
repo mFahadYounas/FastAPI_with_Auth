@@ -19,7 +19,6 @@ def get_products(
     if limit > 20:
         limit = 20
     session_id = request.session.get("session_id")
-    print(session_id)
     if not session_id:
         return ResponseBuilder.error(
             status=401, error_msg="User unauthorized: No session_id"
