@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from . import common_config
 
 
 class ProductsSchema(BaseModel):
@@ -6,5 +7,4 @@ class ProductsSchema(BaseModel):
     price: float
     description: str
 
-    class Config:
-        from_attributes = True
+    model_config = common_config

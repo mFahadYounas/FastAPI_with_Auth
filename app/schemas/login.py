@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from . import common_config
 
 
 class LoginRequest(BaseModel):
@@ -10,13 +11,11 @@ class LoginResponse(BaseModel):
     access_token: str
     token_type: str
 
-    class Config:
-        from_attributes = True
+    model_config = common_config
 
 
 class LoginSessionResponse(BaseModel):
     username: str
     email: EmailStr
 
-    class Config:
-        from_attributes = True
+    model_config = common_config

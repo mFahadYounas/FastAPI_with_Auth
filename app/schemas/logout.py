@@ -1,9 +1,9 @@
 from pydantic import BaseModel, EmailStr
+from . import common_config
 
 
 class LogoutSessionResponse(BaseModel):
     username: str
     email: EmailStr
 
-    class Config:
-        from_attributes = True
+    model_config = common_config

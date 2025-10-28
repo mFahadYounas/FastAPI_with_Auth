@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from . import common_config
 
 
 class UserSchema(BaseModel):
@@ -6,5 +7,4 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str
 
-    class Config:
-        from_attributes = True
+    model_config = common_config
