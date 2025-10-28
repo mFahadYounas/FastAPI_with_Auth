@@ -64,3 +64,8 @@ def test_post_profile_pic_size():
 
     assert response.status_code == 400
     assert "File too large!" in response_body["detail"]
+
+
+def test_post_profile_pic_missing():
+    response = client.post("/profile/picture")
+    assert response.status_code == 422
