@@ -1,7 +1,11 @@
-from redis import Redis, ConnectionError
+from redis import ConnectionError, from_url
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-redis_client = Redis(host="localhost", port=6379, db=0, decode_responses=True)
+REDIS_URL = os.environ.get("REDIS_URL")
+redis_client = from_url(REDIS_URL, decode_responses=True)
 
 
 def check_connectivity() -> int:

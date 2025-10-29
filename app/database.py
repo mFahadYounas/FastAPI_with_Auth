@@ -11,6 +11,7 @@ postgres_pwd = os.environ.get("POSTGRES_PWD")
 postgres_url = os.environ.get("POSTGRES_URL")
 postgres_db_name = os.environ.get("DB_NAME")
 
+
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql://{postgres_user}:{postgres_pwd}@{postgres_url}/{postgres_db_name}"
 )
