@@ -7,7 +7,6 @@ from app.api.v1.profile_pic import profile_pic_router
 from starlette.middleware.sessions import SessionMiddleware
 from app.database import init_db
 from app.manage_redis import check_connectivity
-import uvicorn
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="super-secret-key-of-great-secrecy")
@@ -23,7 +22,6 @@ def main():
     init_db()
     if not check_connectivity():
         return
-    uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
 if __name__ == "__main__":
