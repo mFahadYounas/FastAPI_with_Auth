@@ -8,11 +8,6 @@ This project consists of basic python end points made in python using Fast API a
 
 This section will guide you through setting up your project locally. To get a local copy up and running, follow these simple steps.
 
-### Prerequisites
-
-You need uv as your Python package and project manager.
-Refer to https://docs.astral.sh/uv/#installation for details on installation
-
 ### Installation
 
 1.  Clone the repo
@@ -24,9 +19,14 @@ Refer to https://docs.astral.sh/uv/#installation for details on installation
     ```bash
     cd FastAPI_with_Auth
     ```
-3.  Use the following command to prepare your environment for running
+3.  Make a .env file with the following environment variables
     ```bash
-    uv sync
+    POSTGRES_USER=your postgres database user name here
+    POSTGRES_PWD=your postgres password here
+    POSTGRES_URL=db:5432
+    DB_NAME=any db name you would like to give your postgres db
+    REDIS_URL=redis://redis:6379/0
+    JWT_SECRET_KEY=your JWT secret key here
     ```
 
 ## Usage
@@ -34,7 +34,7 @@ Refer to https://docs.astral.sh/uv/#installation for details on installation
 1. Run the application by using the following command:
 
 ```bash
-uv run main.py
+docker compose up
 ```
 
-2. Open localhost:8000/docs to try out the API
+2. Open localhost:8000/docs to try out the APIs
