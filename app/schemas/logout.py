@@ -2,9 +2,8 @@ from pydantic import BaseModel, EmailStr
 from . import common_config
 
 
-class UserSchema(BaseModel):
-    name: str
+class LogoutSessionResponse(BaseModel):
+    username: str
     email: EmailStr
-    password: str
 
     model_config = common_config

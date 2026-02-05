@@ -7,16 +7,26 @@ from app.schemas.users import UserSchema
 from typing import cast
 from app.ResponseBuilder import ResponseBuilder
 from app.schemas.api_response import APIResponse
+from app.security import oauth2_scheme, verify_token
 
 users_router = APIRouter()
 
 
 @users_router.get("/", response_model=APIResponse[list[UserSchema]])
 def get_users(
-    offset: int = 0, limit: int = 10, db: Session = Depends(get_db)
+    offset: int = 0,
+    limit: int = 10,
+    db: Session = Depends(get_db),
+    token: str = Depends(oauth2_scheme),
 ) -> APIResponse:
     if limit > 20:
         limit = 20
+
+    if not verify_token(token):
+        return ResponseBuilder[list[User]].error(
+            status=401, error_msg="Invalid access token!"
+        )
+
     results = db.query(User).order_by(User.user_id).offset(offset).limit(limit).all()
     return ResponseBuilder[list[User]].success(results)
 

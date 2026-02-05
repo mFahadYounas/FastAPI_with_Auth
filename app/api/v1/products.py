@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from app.schemas.api_response import APIResponse
 from app.schemas.products import ProductsSchema
 from sqlalchemy.exc import DatabaseError
@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.models import Product
 from app.ResponseBuilder import ResponseBuilder
+from app.manage_redis import redis_client
 from typing import cast
 
 products_router = APIRouter()
@@ -13,12 +14,22 @@ products_router = APIRouter()
 
 @products_router.get("/", response_model=APIResponse[list[ProductsSchema]])
 def get_products(
-    offset: int = 0,
-    limit: int = 10,
-    db: Session = Depends(get_db),
+    request: Request, offset: int = 0, limit: int = 10, db: Session = Depends(get_db)
 ) -> APIResponse:
     if limit > 20:
         limit = 20
+    session_id = request.session.get("session_id")
+    if not session_id:
+        return ResponseBuilder.error(
+            status=401, error_msg="User unauthorized: No session_id"
+        )
+
+    session_data = redis_client.get(session_id)
+    if not session_data:
+        return ResponseBuilder.error(
+            status=401, error_msg="User unauthorized: User not signed in"
+        )
+
     products = (
         db.query(Product).order_by(Product.product_id).offset(offset).limit(limit).all()
     )

@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 import os
 
@@ -11,6 +10,7 @@ postgres_user = os.environ.get("POSTGRES_USER")
 postgres_pwd = os.environ.get("POSTGRES_PWD")
 postgres_url = os.environ.get("POSTGRES_URL")
 postgres_db_name = os.environ.get("DB_NAME")
+
 
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql://{postgres_user}:{postgres_pwd}@{postgres_url}/{postgres_db_name}"

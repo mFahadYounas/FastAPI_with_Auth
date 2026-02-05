@@ -1,12 +1,30 @@
 from fastapi import FastAPI
-import uvicorn
+from app.api.v1.login import login_router
+from app.api.v1.products import products_router
+from app.api.v1.users import users_router
+from app.api.v1.logout import logout_router
+from app.api.v1.profile_pic import profile_pic_router
+from starlette.middleware.sessions import SessionMiddleware
+from app.database import init_db
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    print("Starting app...")
+
+    init_db()
+
+    yield
+
+    print("Stopping app...")
 
 
-def main():
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+app = FastAPI(lifespan=lifespan)
+app.add_middleware(SessionMiddleware, secret_key="super-secret-key-of-great-secrecy")
 
-
-if __name__ == "__main__":
-    main()
+app.include_router(login_router, tags=["Login"])
+app.include_router(products_router, tags=["Products"], prefix="/products")
+app.include_router(users_router, tags=["Users"], prefix="/users")
+app.include_router(logout_router, tags=["Logout"])
+app.include_router(profile_pic_router, tags=["Profile Picture"], prefix="/profile")
